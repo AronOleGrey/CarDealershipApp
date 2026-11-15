@@ -97,3 +97,44 @@ def get_dealer_by_id(request, dealer_id):
             "email": d.email,
         },
     })
+
+def get_dealers_by_state(request, state):
+    """Return dealers located in the given state."""
+    dealers = Dealer.objects.filter(state__iexact=state)
+    dealers_data = []
+    for d in dealers:
+        dealers_data.append({
+            "id": d.id,
+            "full_name": d.full_name,
+            "city": d.city,
+            "address": d.address,
+            "zip": d.zip,
+            "state": d.state,
+            "phone": d.phone,
+            "email": d.email,
+        })
+    return JsonResponse({"status": 200, "state": state, "dealers": dealers_data})
+
+from .models import CarMake, CarModel
+
+
+def get_cars(request):
+    """Return all car makes with their models."""
+    car_makes = CarMake.objects.all()
+    result = []
+    for make in car_makes:
+        models_list = []
+        for m in make.carmodel_set.all():
+            models_list.append({
+                "id": m.id,
+                "name": m.name,
+                "type": m.type,
+                "year": m.year,
+            })
+        result.append({
+            "id": make.id,
+            "name": make.name,
+            "description": make.description,
+            "models": models_list,
+        })
+    return JsonResponse({"status": 200, "car_makes": result})
