@@ -59,3 +59,41 @@ def get_dealer_reviews(request, dealer_id):
         "dealer": dealer.full_name,
         "reviews": reviews_data,
     })
+
+def get_dealers(request):
+    """Return all dealers."""
+    dealers = Dealer.objects.all()
+    dealers_data = []
+    for d in dealers:
+        dealers_data.append({
+            "id": d.id,
+            "full_name": d.full_name,
+            "city": d.city,
+            "address": d.address,
+            "zip": d.zip,
+            "state": d.state,
+            "phone": d.phone,
+            "email": d.email,
+        })
+    return JsonResponse({"status": 200, "dealers": dealers_data})
+
+def get_dealer_by_id(request, dealer_id):
+    """Return details of one dealer by id."""
+    try:
+        d = Dealer.objects.get(id=dealer_id)
+    except Dealer.DoesNotExist:
+        return JsonResponse({"status": 404, "message": "Dealer not found"}, status=404)
+
+    return JsonResponse({
+        "status": 200,
+        "dealer": {
+            "id": d.id,
+            "full_name": d.full_name,
+            "city": d.city,
+            "address": d.address,
+            "zip": d.zip,
+            "state": d.state,
+            "phone": d.phone,
+            "email": d.email,
+        },
+    })

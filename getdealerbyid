@@ -1,0 +1,2 @@
+curl http://localhost:8000/djangoapp/dealer/1
+{"status": 200, "dealer": {"id": 1, "full_name": "Kansas Auto Group", "city": "Kansas City", "address": "123 Main St", "zip": "66101", "state": "Kansas", "phone": "555-1234", "email": "info@kansasauto.com"}}
