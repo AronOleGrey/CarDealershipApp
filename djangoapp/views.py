@@ -138,3 +138,25 @@ def get_cars(request):
             "models": models_list,
         })
     return JsonResponse({"status": 200, "car_makes": result})
+
+def analyze_review(request, text):
+    """Return sentiment for the given review text (keyword-based)."""
+    positive_words = ['fantastic', 'great', 'good', 'excellent', 'amazing', 'love', 'wonderful', 'best']
+    negative_words = ['bad', 'terrible', 'awful', 'hate', 'worst', 'poor', 'horrible', 'disappointing']
+
+    lower = text.lower()
+    pos_count = sum(1 for w in positive_words if w in lower)
+    neg_count = sum(1 for w in negative_words if w in lower)
+
+    if pos_count > neg_count:
+        sentiment = 'positive'
+    elif neg_count > pos_count:
+        sentiment = 'negative'
+    else:
+        sentiment = 'neutral'
+
+    return JsonResponse({
+        "status": 200,
+        "text": text,
+        "sentiment": sentiment,
+    })
