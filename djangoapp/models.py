@@ -42,9 +42,11 @@ class Review(models.Model):
     user_name = models.CharField(max_length=100)
     review = models.TextField()
     sentiment = models.CharField(max_length=20, blank=True)
+    purchase = models.BooleanField(default=False)
     purchase_date = models.DateField(blank=True, null=True)
     car_make = models.CharField(max_length=100, blank=True)
     car_model = models.CharField(max_length=100, blank=True)
+    car_year = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.user_name} - {self.dealer.full_name}"
