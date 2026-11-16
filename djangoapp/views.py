@@ -1,5 +1,6 @@
 """Views for the djangoapp API."""
 import json
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -25,11 +26,10 @@ def login_user(request):
 
 @csrf_exempt
 def logout_user(request):
-    """Log out the current user."""
+    """Log out the current user and return empty userName."""
     if request.user.is_authenticated:
         logout(request)
-        return JsonResponse({"userName": request.user.username, "status": "Logged out"}, status=200)
-    return JsonResponse({"status": "Not logged in"}, status=401)
+    return JsonResponse({"userName": ""}, status=200)
 
 from .models import Dealer, Review
 
@@ -160,3 +160,65 @@ def analyze_review(request, text):
         "text": text,
         "sentiment": sentiment,
     })
+
+def dealer_detail_page(request, dealer_id):
+    """Render dealer details with reviews."""
+    try:
+        dealer = Dealer.objects.get(id=dealer_id)
+    except Dealer.DoesNotExist:
+        return render(request, 'djangoapp/dealer_not_found.html', status=404)
+
+    reviews = Review.objects.filter(dealer=dealer)
+    return render(request, 'djangoapp/dealer_detail.html', {
+        'dealer': dealer,
+        'reviews': reviews,
+    })
+
+def add_review_page(request, dealer_id):
+    """Render review form (GET) or save review (POST)."""
+    try:
+        dealer = Dealer.objects.get(id=dealer_id)
+    except Dealer.DoesNotExist:
+        return render(request, 'djangoapp/dealer_not_found.html', status=404)
+
+    if request.method == 'POST':
+        user_name = request.POST.get('user_name', '').strip() or request.user.username
+        review_text = request.POST.get('review', '').strip()
+        car_make = request.POST.get('car_make', '').strip()
+        car_model = request.POST.get('car_model', '').strip()
+
+        if review_text:
+            Review.objects.create(
+                dealer=dealer,
+                user_name=user_name,
+                review=review_text,
+                sentiment='positive',
+                car_make=car_make,
+                car_model=car_model,
+            )
+            return redirect(f'/djangoapp/dealer/{dealer.id}/')
+
+    return render(request, 'djangoapp/add_review.html', {'dealer': dealer})
+
+def login_page(request):
+    """Render a simple login page and authenticate on POST."""
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/djangoapp/')
+        return render(request, 'djangoapp/login_page.html', {'error': 'Invalid credentials'})
+    return render(request, 'djangoapp/login_page.html')
+
+
+def logout_page(request):
+    """Log the user out and redirect to home."""
+    logout(request)
+    return redirect('/djangoapp/')
+
+def index(request):
+    """Home page listing all dealers."""
+    dealers = Dealer.objects.all()
+    return render(request, 'djangoapp/index.html', {'dealers': dealers})
