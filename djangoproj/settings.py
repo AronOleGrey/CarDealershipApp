@@ -25,8 +25,14 @@ SECRET_KEY = 'django-insecure-5f@eq$o(mgkf9n8_5-i%e(==5s8bqc@(0))hyw%h^uuit4h%me
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://car-dealership.2h9ivvueafvv.us-south.codeengine.appdomain.cloud',
+    'https://*.codeengine.appdomain.cloud',
+    'https://*.proxy.cognitiveclass.ai',
+    'https://*.trycloudflare.com',
+]
 
 # Application definition
 
