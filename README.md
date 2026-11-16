@@ -1,18 +1,18 @@
-# Car Dealership Application
+# fullstack_developer_capstone
 
 ## Repository name
-`CarDealershipApp`
+`fullstack_developer_capstone`
 
 ## Project name
-Car Dealership Application
+fullstack_developer_capstone
 
 ## Description
-A full-stack web application for a car dealership network. Customers can browse dealers, view dealer reviews, and post reviews about their experience. Dealers can be filtered by state, and reviews are analyzed for sentiment.
+A full-stack car dealership review application. Customers can browse dealers, view dealer reviews, and post reviews. Includes a Django REST API backend, React frontend components, admin panel, CI/CD via GitHub Actions, and deployment on IBM Cloud Code Engine.
 
 ## Tech stack
-- Django (backend REST API)
+- Django (REST API backend)
 - React (frontend)
-- SQLite / Cloudant (database)
+- SQLite (database)
 - GitHub Actions (CI/CD)
 - IBM Cloud Code Engine (deployment)
 
