@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Best Cars Dealership - Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/djangoapp/">Best Cars Dealership</a>
+        <div class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <span class="navbar-text mr-3">Welcome, {{ user.username }}</span>
+                <a class="nav-link" href="/djangoapp/logout_page/">Logout</a>
+            {% else %}
+                <a class="nav-link" href="/djangoapp/login_page/">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <h1>Our Dealers</h1>
+        <div class="row">
+            {% for dealer in dealers %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ dealer.full_name }}</h5>
+                        <p class="card-text">
+                            {{ dealer.address }}<br>
+                            {{ dealer.city }}, {{ dealer.state }} {{ dealer.zip }}<br>
+                            Phone: {{ dealer.phone }}<br>
+                            Email: {{ dealer.email }}
+                        </p>
+                        <a href="/djangoapp/dealer/{{ dealer.id }}/" class="btn btn-primary">View Dealer</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No dealers available.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

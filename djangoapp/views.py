@@ -122,25 +122,16 @@ from .models import CarMake, CarModel
 
 
 def get_cars(request):
-    """Return all car makes with their models."""
-    car_makes = CarMake.objects.all()
-    result = []
-    for make in car_makes:
-        models_list = []
-        for m in make.carmodel_set.all():
-            models_list.append({
-                "id": m.id,
-                "name": m.name,
-                "type": m.type,
-                "year": m.year,
-            })
-        result.append({
-            "id": make.id,
-            "name": make.name,
-            "description": make.description,
-            "models": models_list,
+    """Return all car models with their makes."""
+    models_list = []
+    for m in CarModel.objects.select_related('car_make').all():
+        models_list.append({
+            "CarModel": m.name,
+            "CarMake": m.car_make.name,
+            "type": m.type,
+            "year": m.year,
         })
-    return JsonResponse({"status": 200, "car_makes": result})
+    return JsonResponse({"status": 200, "CarModels": models_list})
 
 def analyze_review(request, text):
     """Return sentiment for the given review text (keyword-based)."""

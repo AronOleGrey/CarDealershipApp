@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Review - {{ dealer.full_name }}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/djangoapp/">Best Cars Dealership</a>
+    </nav>
+    <div class="container mt-4" style="max-width: 700px;">
+        <h2>Post a Review for {{ dealer.full_name }}</h2>
+        <form method="post" action="/djangoapp/dealer/{{ dealer.id }}/review/">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="user_name">Your Name</label>
+                <input type="text" id="user_name" name="user_name" class="form-control" value="{{ user.username }}" required>
+            </div>
+            <div class="form-group">
+                <label for="review">Review</label>
+                <textarea id="review" name="review" class="form-control" rows="5" required></textarea>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="car_make">Car Make</label>
+                    <input type="text" id="car_make" name="car_make" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="car_model">Car Model</label>
+                    <input type="text" id="car_model" name="car_model" class="form-control">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Submit Review</button>
+            <a href="/djangoapp/dealer/{{ dealer.id }}/" class="btn btn-secondary mt-3">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

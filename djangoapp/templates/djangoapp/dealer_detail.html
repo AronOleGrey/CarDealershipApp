@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ dealer.full_name }} - Best Cars Dealership</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/djangoapp/">Best Cars Dealership</a>
+        <div class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <span class="navbar-text mr-3">Welcome, {{ user.username }}</span>
+                <a class="nav-link" href="/djangoapp/logout_page/">Logout</a>
+            {% else %}
+                <a class="nav-link" href="/djangoapp/login_page/">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <h1>{{ dealer.full_name }}</h1>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Dealer Details</h5>
+                <p><strong>Address:</strong> {{ dealer.address }}, {{ dealer.city }}, {{ dealer.state }} {{ dealer.zip }}</p>
+                <p><strong>Phone:</strong> {{ dealer.phone }}</p>
+                <p><strong>Email:</strong> {{ dealer.email }}</p>
+            </div>
+        </div>
+        <a href="/djangoapp/dealer/{{ dealer.id }}/review/" class="btn btn-success mb-3">Post a Review</a>
+        <h3>Reviews</h3>
+        {% if reviews %}
+            {% for review in reviews %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5>{{ review.user_name }}</h5>
+                    <p>{{ review.review }}</p>
+                    <p class="text-muted"><small>
+                        {% if review.sentiment %}Sentiment: {{ review.sentiment }} | {% endif %}
+                        {% if review.car_make %}{{ review.car_make }} {{ review.car_model }}{% if review.car_year %} ({{ review.car_year }}){% endif %}{% endif %}
+                    </small></p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No reviews yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
