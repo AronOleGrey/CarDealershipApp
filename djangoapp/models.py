@@ -25,10 +25,13 @@ class CarModel(models.Model):
 class Dealer(models.Model):
     """Car dealership."""
     full_name = models.CharField(max_length=200)
+    short_name = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=100)
     address = models.CharField(max_length=300)
     zip = models.CharField(max_length=10)
     state = models.CharField(max_length=50)
+    lat = models.FloatField(blank=True, null=True)
+    long = models.FloatField(blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True)
     email = models.EmailField(blank=True)
 

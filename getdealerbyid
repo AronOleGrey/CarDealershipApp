@@ -1,2 +1,2 @@
-curl http://localhost:8000/djangoapp/dealer/1
-{"status": 200, "dealer": {"id": 1, "full_name": "Kansas Auto Group", "city": "Kansas City", "address": "123 Main St", "zip": "66101", "state": "Kansas", "phone": "555-1234", "email": "info@kansasauto.com"}}
+curl http://localhost:8000/djangoapp/api/dealer/2
+{"status": 200, "dealer": {"id": 2, "full_name": "Best Cars Dealership #1", "short_name": "BestCars1", "city": "Kansas City", "address": "101 Main Street", "zip": "66101", "state": "Kansas", "lat": 38.7118, "long": -98.1887, "phone": "555-1001", "email": "dealer1@bestcars.com"}}

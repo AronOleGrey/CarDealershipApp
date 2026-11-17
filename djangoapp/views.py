@@ -89,10 +89,13 @@ def get_dealer_by_id(request, dealer_id):
         "dealer": {
             "id": d.id,
             "full_name": d.full_name,
+            "short_name": d.short_name,
             "city": d.city,
             "address": d.address,
             "zip": d.zip,
             "state": d.state,
+            "lat": d.lat,
+            "long": d.long,
             "phone": d.phone,
             "email": d.email,
         },
